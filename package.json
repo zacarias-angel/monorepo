@@ -1,0 +1,11 @@
+{
+  "name": "llavero-monorepo",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev:llavero": "npm --prefix apps/llavero-webar run dev",
+    "build:llavero": "npm --prefix apps/llavero-webar run build"
+  }
+}
