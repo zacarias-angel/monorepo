@@ -8,6 +8,8 @@
 
 html, body, #app { width: 100%; height: 100%; margin: 0; overflow: hidden; }
 
+#camerafeed { touch-action: none; }
+
 #app { position: relative; }
 
 /* MindAR creates these elements with a negative video z-index by default. */

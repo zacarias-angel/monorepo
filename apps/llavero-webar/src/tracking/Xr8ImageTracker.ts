@@ -31,6 +31,11 @@ export class Xr8ImageTracker {
     window.addEventListener('reality.imagelost', this.onLost as EventListener);
     const canvas = document.createElement('canvas');
     canvas.id = 'camerafeed';
+    canvas.style.position = 'fixed';
+    canvas.style.inset = '0';
+    canvas.style.width = '100vw';
+    canvas.style.height = '100vh';
+    canvas.style.zIndex = '0';
     document.body.appendChild(canvas);
     XR8.run({ canvas, allowedDevices: XR8.XrConfig.device().ANY });
     this.started = true;
