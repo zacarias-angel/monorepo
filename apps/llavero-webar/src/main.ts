@@ -1,12 +1,11 @@
 import './style.css';
 import { AvatarModel } from './models/AvatarModel';
-import { MindArImageTracker } from './tracking/MindArImageTracker';
+import { Xr8ImageTracker } from './tracking/Xr8ImageTracker';
 import { DebugPanel } from './ui/DebugPanel';
 
-const app = requireElement<HTMLElement>('app');
 const intro = requireElement<HTMLElement>('intro');
 const startButton = requireElement<HTMLButtonElement>('start-button');
-const tracker = new MindArImageTracker(app);
+const tracker = new Xr8ImageTracker();
 const avatar = new AvatarModel();
 const debug = new DebugPanel();
 
@@ -22,23 +21,18 @@ function resize(): void {
   // MindAR ajusta video, canvas y proyeccion con su propio listener de resize.
 }
 
-function render(): void {
-  const tracking = tracker.update();
-  tracker.render();
-  debug.update(tracking);
-  animationFrameId = requestAnimationFrame(render);
-}
+function render(): void { animationFrameId = requestAnimationFrame(render); }
 
 async function startExperience(): Promise<void> {
   startButton.disabled = true;
-  debug.setStatus('Solicitando permiso de camara...');
+    debug.setStatus('Solicitando permiso de camara...');
 
   try {
     await tracker.start();
     debug.setStatus('Cargando avatar...');
     await avatar.load();
     tracker.attach(avatar.root);
-    debug.setStatus('Apunta la camara a la imagen impresa del llavero.');
+    debug.setStatus('Apunta la camara al marcador ROBLOX.');
     intro.hidden = true;
   } catch (error) {
     console.error('No fue posible iniciar MindAR.', error);
