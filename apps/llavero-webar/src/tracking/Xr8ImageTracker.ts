@@ -36,6 +36,9 @@ export class Xr8ImageTracker {
     canvas.style.width = '100vw';
     canvas.style.height = '100vh';
     canvas.style.zIndex = '0';
+    const pixelRatio = Math.min(window.devicePixelRatio, 2);
+    canvas.width = Math.round(window.innerWidth * pixelRatio);
+    canvas.height = Math.round(window.innerHeight * pixelRatio);
     document.body.appendChild(canvas);
     XR8.run({ canvas, allowedDevices: XR8.XrConfig.device().ANY });
     this.started = true;
