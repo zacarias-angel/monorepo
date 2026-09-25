@@ -16,7 +16,7 @@ export class AvatarModel {
     const bounds = new THREE.Box3().setFromObject(object);
     const size = bounds.getSize(new THREE.Vector3());
     const center = bounds.getCenter(new THREE.Vector3());
-    const desiredHeight = 0.34;
+    const desiredHeight = 0.18;
     const scale = desiredHeight / size.y;
 
     object.position.set(-center.x, -bounds.min.y, -center.z);

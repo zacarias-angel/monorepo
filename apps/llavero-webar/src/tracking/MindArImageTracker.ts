@@ -18,8 +18,8 @@ export class MindArImageTracker implements ImageTracker {
       uiLoading: 'no',
       uiScanning: 'no',
       uiError: 'no',
-      filterMinCF: 0.001,
-      filterBeta: 1000,
+      filterMinCF: 0.0001,
+      filterBeta: 10,
       warmupTolerance: 5,
       missTolerance: 5,
     });

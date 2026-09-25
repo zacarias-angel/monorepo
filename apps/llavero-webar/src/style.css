@@ -8,7 +8,11 @@
 
 html, body, #app { width: 100%; height: 100%; margin: 0; overflow: hidden; }
 
-#app { position: relative; background: #101820; }
+#app { position: relative; }
+
+/* MindAR creates these elements with a negative video z-index by default. */
+#app > video { z-index: 0 !important; }
+#app > canvas { z-index: 1 !important; pointer-events: none; }
 
 .intro {
   position: fixed;
