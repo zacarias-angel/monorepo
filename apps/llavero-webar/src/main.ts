@@ -35,8 +35,8 @@ async function startExperience(): Promise<void> {
     debug.setStatus('Apunta la camara al marcador ROBLOX.');
     intro.hidden = true;
   } catch (error) {
-    console.error('No fue posible iniciar MindAR.', error);
-    debug.setStatus(`No se pudo iniciar MindAR: ${getErrorName(error)}.`);
+    console.error('No fue posible iniciar XR8.', error);
+    debug.setStatus(`No se pudo iniciar XR8: ${getErrorName(error)}.`);
     startButton.disabled = false;
   }
 }

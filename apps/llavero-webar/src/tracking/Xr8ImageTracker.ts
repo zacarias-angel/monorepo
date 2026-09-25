@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import targetData from '../../assets/image-targets/roblox-avatar.json';
 
 export class Xr8ImageTracker {
   private readonly anchor = new THREE.Group();
@@ -6,8 +7,7 @@ export class Xr8ImageTracker {
 
   public async start(): Promise<void> {
     await waitForXr8();
-    const target = await fetch('/image-targets/roblox-avatar.json').then((response) => response.json());
-    XR8.XrController.configure({ imageTargetData: [target] });
+    XR8.XrController.configure({ imageTargetData: [targetData] });
 
     XR8.addCameraPipelineModules([
       XR8.GlTextureRenderer.pipelineModule(),
