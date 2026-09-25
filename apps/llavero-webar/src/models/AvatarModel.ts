@@ -19,8 +19,9 @@ export class AvatarModel {
     const desiredHeight = 0.18;
     const scale = desiredHeight / size.y;
 
-    object.position.set(-center.x, -bounds.min.y, -center.z);
     object.scale.setScalar(scale);
+    // Object3D.position is in parent units and is not affected by its own scale.
+    object.position.set(-center.x * scale, -bounds.min.y * scale, -center.z * scale);
     object.traverse((child) => {
       if (!(child instanceof THREE.Mesh)) return;
       child.castShadow = false;

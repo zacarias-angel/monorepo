@@ -23,6 +23,11 @@ export class MindArImageTracker implements ImageTracker {
       warmupTolerance: 5,
       missTolerance: 5,
     });
+
+    this.mindar.scene.add(new THREE.HemisphereLight(0xffffff, 0x243040, 2.2));
+    const keyLight = new THREE.DirectionalLight(0xffffff, 1.8);
+    keyLight.position.set(1, 2, 2);
+    this.mindar.scene.add(keyLight);
   }
 
   public async start(): Promise<void> {
