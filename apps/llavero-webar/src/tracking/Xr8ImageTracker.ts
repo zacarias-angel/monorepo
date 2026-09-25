@@ -7,6 +7,7 @@ export class Xr8ImageTracker {
 
   public async start(): Promise<void> {
     await waitForXr8();
+    window.THREE = THREE;
     XR8.XrController.configure({ imageTargetData: [targetData] });
 
     XR8.addCameraPipelineModules([
