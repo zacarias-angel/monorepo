@@ -1,3 +1,4 @@
 FROM nginx:1.27-alpine
-COPY . /usr/share/nginx/html
+COPY public/ /usr/share/nginx/html/
+COPY index.html app.js style.css /usr/share/nginx/html/
 EXPOSE 80
