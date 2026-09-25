@@ -4,6 +4,8 @@ import { MindArImageTracker } from './tracking/MindArImageTracker';
 import { DebugPanel } from './ui/DebugPanel';
 
 const app = requireElement<HTMLElement>('app');
+const intro = requireElement<HTMLElement>('intro');
+const startButton = requireElement<HTMLButtonElement>('start-button');
 const tracker = new MindArImageTracker(app);
 const avatar = new AvatarModel();
 const debug = new DebugPanel();
@@ -28,16 +30,20 @@ function render(): void {
 }
 
 async function startExperience(): Promise<void> {
-  debug.setStatus('Preparando target MindAR...');
+  startButton.disabled = true;
+  debug.setStatus('Solicitando permiso de camara...');
 
   try {
-    await avatar.load();
     await tracker.start();
+    debug.setStatus('Cargando avatar...');
+    await avatar.load();
     tracker.attach(avatar.root);
     debug.setStatus('Apunta la camara a track.webp impreso.');
+    intro.hidden = true;
   } catch (error) {
     console.error('No fue posible iniciar MindAR.', error);
     debug.setStatus(`No se pudo iniciar MindAR: ${getErrorName(error)}.`);
+    startButton.disabled = false;
   }
 }
 
@@ -53,6 +59,6 @@ function stopExperience(): void {
 
 resize();
 window.addEventListener('resize', resize, { passive: true });
+startButton.addEventListener('click', () => void startExperience());
 window.addEventListener('pagehide', stopExperience, { once: true });
 animationFrameId = requestAnimationFrame(render);
-void startExperience();

@@ -1,7 +1,6 @@
 import * as THREE from 'three';
-import { Compiler } from 'mind-ar/src/image-target/compiler.js';
 import { MindARThree } from 'mind-ar/dist/mindar-image-three.prod.js';
-import targetImageUrl from '../../track.webp?url';
+import targetDataUrl from '../../targets.mind?url';
 import type { ImageTracker, TrackingResult } from './types';
 
 export class MindArImageTracker implements ImageTracker {
@@ -10,13 +9,12 @@ export class MindArImageTracker implements ImageTracker {
   private readonly quaternion = new THREE.Quaternion();
   private readonly scale = new THREE.Vector3();
   private anchor: ReturnType<MindARThree['addAnchor']> | null = null;
-  private targetUrl: string | null = null;
   private visible = false;
 
   public constructor(container: HTMLElement) {
     this.mindar = new MindARThree({
       container,
-      imageTargetSrc: '',
+      imageTargetSrc: targetDataUrl,
       uiLoading: 'no',
       uiScanning: 'no',
       uiError: 'no',
@@ -28,7 +26,6 @@ export class MindArImageTracker implements ImageTracker {
   }
 
   public async start(): Promise<void> {
-    this.mindar.imageTargetSrc = await this.compileTarget();
     this.anchor = this.mindar.addAnchor(0);
     this.anchor.onTargetFound = () => { this.visible = true; };
     this.anchor.onTargetLost = () => { this.visible = false; };
@@ -60,25 +57,5 @@ export class MindArImageTracker implements ImageTracker {
 
   public stop(): void {
     this.mindar.stop();
-    if (this.targetUrl) URL.revokeObjectURL(this.targetUrl);
-    this.targetUrl = null;
   }
-
-  private async compileTarget(): Promise<string> {
-    const image = await loadImage(targetImageUrl);
-    const compiler = new Compiler();
-    await compiler.compileImageTargets([image], () => undefined);
-    const data = compiler.exportData();
-    const binary = new Uint8Array(data.byteLength);
-    binary.set(data);
-    this.targetUrl = URL.createObjectURL(new Blob([binary.buffer], { type: 'application/octet-stream' }));
-    return this.targetUrl;
-  }
-}
-
-async function loadImage(url: string): Promise<HTMLImageElement> {
-  const image = new Image();
-  image.src = url;
-  await image.decode();
-  return image;
 }
