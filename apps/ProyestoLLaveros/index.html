@@ -53,14 +53,18 @@
           el.addEventListener('model-loaded', function () {
             el.object3D.traverse(function (node) {
               if (!node.isMesh) return;
-              const source = node.material;
-              node.material = new THREE.MeshBasicMaterial({
-                map: source.map || null,
-                color: source.color || 0xffffff,
-                transparent: source.transparent,
-                opacity: source.opacity,
-                side: source.side
-              });
+              const makeUnlit = function (source) {
+                return new THREE.MeshBasicMaterial({
+                  map: source.map || null,
+                  color: source.color || 0xffffff,
+                  transparent: source.transparent,
+                  opacity: source.opacity,
+                  side: source.side
+                });
+              };
+              node.material = Array.isArray(node.material)
+                ? node.material.map(makeUnlit)
+                : makeUnlit(node.material);
             });
           });
         }
