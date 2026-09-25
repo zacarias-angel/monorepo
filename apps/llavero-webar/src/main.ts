@@ -38,7 +38,7 @@ async function startExperience(): Promise<void> {
     debug.setStatus('Cargando avatar...');
     await avatar.load();
     tracker.attach(avatar.root);
-    debug.setStatus('Apunta la camara a track.webp impreso.');
+    debug.setStatus('Apunta la camara a la imagen impresa del llavero.');
     intro.hidden = true;
   } catch (error) {
     console.error('No fue posible iniciar MindAR.', error);
